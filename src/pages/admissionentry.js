@@ -47,7 +47,7 @@ const AdmissionDetails= () =>  {
                     <div className="flex-large">
                         <h2>Admission Information</h2>
                         <Table rows={items} columns={columns}  />
-                        <AdmissionFooter />
+                        <AdmissionFooter  />
                     </div>
                 </div>
             </div>
