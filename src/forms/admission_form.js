@@ -1,69 +1,147 @@
-import React, { useState } from 'react'
-import './admission_form.css'
+import React from 'react';
 
-const AddAdmissionForm = props => {
-	const initialAdmissionState = { studentname: '' ,fathername:'', mothername:'', dob:'', 
-                                age:'', contactdetails:'', address:'', classinfo:''}
-	const [ item, setItem ] = useState(initialAdmissionState)
+const inputParsers = {
+  date(input) {
+    const [month, day, year] = input.split('/');
+    return `${year}-${month}-${day}`;
+  },
+  uppercase(input) {
+    return input.toUpperCase();
+  },
+  number(input) {
+    return parseFloat(input);
+  },
+};
 
-	const handleInputChange = event => {
-		const { name, value } = event.target
+class AddAdmissionForm extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-		setItem({ ...item, [name]: value })
-	}
+  handleSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
 
-	return (
-		<form className='body'
-			onSubmit={event => {
-				event.preventDefault()
-				if (!item.studentname || !item.fathername) return
+    for (let name of data.keys()) {
+      const input = form.elements[name];
+      const parserName = input.dataset.parse;
 
-				props.addItem(item)
-				setItem(initialAdmissionState)
-			}}
-		>
-			<div className="st"><label>Student_Name</label>
-			<input type="text" name="studentname" value={item.studentname} onChange={handleInputChange} />
-			</div>
-			
-			<div className="horizontal-group">
-			<div className="form-group left">
-			<label>Father_Name</label>
-			<input type="text" name="fathername" value={item.fathername} onChange={handleInputChange} />
-			</div>
-			<div className="form-group right">
-			<label>Mother_Name</label>
-			<input type="text" name="mothername" value={item.mothername} onChange={handleInputChange} />
-			</div>
-				</div>
-			
-			<div className="horizontal-group">
-				<div className="form-group left">
-				<label>Date-of-Birth</label>
-				<input type="text" name="dob" value={item.dob} onChange={handleInputChange} />
-				</div>
-				<div className="form-group right">
-				<label>Age</label>
-				<input type="number" name="age" value={item.age} onChange={handleInputChange} />
-				</div>
-			</div>
+      if (parserName) {
+        const parser = inputParsers[parserName];
+        const parsedValue = parser(data.get(name));
+        data.set(name, parsedValue);
+      }
+    }
+    
+    fetch('http://localhost:4000/admission', {
+      method: 'POST',
+      body: data,
+    });
+  }
 
-			<div className="horizontal-group">
-				<div className="form-group left">
-				<label>Contact-Number</label>
-				<input type="number" name="contactdetails" value={item.contactdetails} onChange={handleInputChange} />
-				</div>
-				<div className="form-group right">
-				<label>Address</label>
-				<input type="text" name="address" value={item.address} onChange={handleInputChange} />
-				</div>
-			</div>
-            <label>Class-Info</label>
-			<input type="text" name="classinfo" value={item.classinfo} onChange={handleInputChange} />
-			<div className="center"><button>Add new Detail</button></div>
-			
-		</form>
-	)
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+		  <label>Fee</label>
+        <input
+          name="fee"
+          type="number"
+          data-parse="number"
+        />
+
+        
+		<label>Student-Name</label>
+        <input
+          name="studentName"
+          type="text"
+          data-parse="uppercase"
+        />
+
+		<label>Guardian-Name</label>
+		<input
+          name="guardianName"
+          type="text"
+          data-parse="uppercase"
+        />
+
+
+		<label>Class</label>
+		<input
+          name="class"
+          type="text"
+          data-parse="uppercase"
+        />
+		<label>Admission-Date</label>
+		<input
+          name="admissionDate"
+          type="text"
+          data-parse="uppercase"
+        />
+
+
+		<label>Date-of-birth</label>
+		<input
+          name="dob"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		<label>Type</label>
+		<input
+          name="type"
+          type="text"
+          data-parse="uppercase"
+        />	
+		
+		<label>Previos school</label>
+		<input
+          name="previousSchool"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		
+		<label>Blood-Group</label>
+		<input
+          name="bloodGroup"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		<label>Id-Proof</label>
+		<input
+          name="idProof"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		<label>Contact Number</label>
+		<input
+          name="contactNumber"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		<label>Gender</label>
+		<input
+          name="gender"
+          type="text"
+          data-parse="uppercase"
+        />
+		
+		<label>Address</label>
+		<input
+          name="address"
+          type="text"
+          data-parse="uppercase"
+        />
+
+        <button>Submit</button>
+      </form>
+    );
+  }
 }
 
-export default AddAdmissionForm
+export default AddAdmissionForm;

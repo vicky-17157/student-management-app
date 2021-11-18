@@ -56,7 +56,7 @@ const Academicinfo = () =>{
           <Link to='/faculty'>
               <div><img src={imgs} alt='Logo'/>
               <h1>Click here for Faculty information</h1>
-              <Footer />
+              
               </div>
               </Link>
           </div>

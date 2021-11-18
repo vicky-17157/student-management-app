@@ -3,7 +3,7 @@ import Navbar from '../navbar/navbar';
 import Academicinfo from '../pages/home';
 import AdmissionDetails from '../pages/admissionentry';
 import StudentDetail from '../pages/students';
-import FacultyDetails from '../pages/facultyentry';
+import FacultyDetail from '../pages/faculty';
 //import FacultyDetails from './facultyentry'
 import {  Route, Router, Link, Switch } from "react-router-dom";
 import AddAdmissionForm from '../forms/admission_form';
@@ -26,7 +26,7 @@ function StudentApp(){
                   <Route path="/student" component={StudentDetail}></Route>
               </Switch>
               <Switch>
-                  <Route path="/faculty" component={FacultyDetails}></Route>
+                  <Route path="/faculty" component={FacultyDetail}></Route>
               </Switch>
             </div>
             {/* <div>
@@ -49,7 +49,7 @@ function StudentApp(){
                 <StudentDetail />
               </Route>
               <Route path="/faculty">
-                <FacultyDetails />
+                <FacultyDetail />
               </Route>  
             </Switch>
           </Router>
