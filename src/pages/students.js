@@ -1,37 +1,41 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import StudentApp from "../components/app";
+import StudentFooter from "./studentfooter";
 
 import { Table } from "../Tables/table";
 import StudentDetails from "./studententry";
-
+import axios from 'axios';
 export default class StudentDetail extends Component {
-    constructor(props){
-        super(props);
-        this.state = {apiResponse:[]};
-    }
-    callAPI(){
-        fetch("http://localhost:3000/student")
-      
-      .then(res => this.setState({apiResponse:res}));
-      console.log(this.state.apiResponse,'apiresponse')
-    };
+    state = {
+        students: []
+      }
+    
+    componentDidMount() {
+        axios.get(`http://localhost:4000/student`)
+          .then(res => {
+            const students = res.data;
+            this.setState({ students });
+            console.log("=============>data==========>",students);
+          })
+      }
 
-
-    componentWillMount(){
-        this.callAPI();
-    }  
+   
 
 render() {
     const columns = [
-        { accessor: 'studentname', label: 'Student Name' },
-            { accessor: 'fathername', label: 'Father Name' },
-            { accessor: 'mothername', label: 'Mother Name', },
+        { accessor: 'name', label: 'Student Name' },
+            { accessor: 'address', label: 'Address' },
             { accessor: 'class', label: 'Class', },
-            { accessor: 'emergencycontactnumber', label: 'Emergency Contact Number' },
-            { accessor: 'dob', label: 'Date of Birth' },
-           { accessor: 'yearofadmission', label: 'Year of Admission' },
-           { accessor: 'address', label: 'Address' },
+            { accessor: 'section', label: 'Section', },
+            { accessor: 'gender', label: 'Gender' },
+            { accessor: 'bloodGroup', label: 'Blood group' },
+           { accessor: 'yearOfAdmission', label: 'Year of Admission' },
+           { accessor: 'dob', label: 'Date of Birth' },
+           { accessor: 'admissionNumber', label: 'Admission Number' },
+           { accessor: 'guardianName', label: 'Guardian Name' },
+           { accessor: 'contactNumber', label: 'Contact' },
+        
            
        ]
         return(
@@ -39,14 +43,14 @@ render() {
                 <header className="divright">
                     
                 </header>
-                <p>{this.state.apiResponse}</p>
+                
                 <div >
 				
 				<div className="flex-large">
 					<h2>Student List</h2>
-                    {console.log('api response',this.state.apiResponse)}
-					<Table rows={this.state.apiResponse} columns={columns} />
-                    {/* <StudentFooter /> */}
+                    {console.log('api response',this.state.students)}
+					<Table rows={this.state.students} columns={columns} />
+                    <StudentFooter />
 				</div>
 			</div>
             </div>

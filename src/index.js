@@ -9,6 +9,7 @@ import AdmissionDetails from './pages/admissionentry';
 import StudentDetail from './pages/students';
 import FacultyDetails from './pages/facultyentry';
 import Academicinfo from './pages/home'
+import FacultyDetail from './pages/faculty'
 //import AddAdmissionForm from './forms/admission_form';
 
 /*ReactDOM.render(
@@ -31,7 +32,7 @@ ReactDOM.render(
         <Route exact path="/" component={Academicinfo}/>
         <Route exact path="/admission" component={AdmissionDetails}/>
         <Route exact path="/student" component={StudentDetail}/>
-        <Route exact path="/faculty" component={FacultyDetails}/>
+        <Route exact path="/faculty" component={FacultyDetail}/>
     </Switch>
   </Router>,
   document.getElementById('root')
